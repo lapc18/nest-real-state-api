@@ -1,50 +1,50 @@
-import { type } from "os";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Owner } from "./owner.entity";
+import { PropertyImage } from "./property-imgs.entity";
 
 @Entity()
 export class Property {
     @PrimaryGeneratedColumn()
     public id: number;
     
-    @Column()
+    @Column({default: ""})
     public title: string;
 
-    @Column()
+    @Column({default: "", length: 500})
     public description: string;
 
-    @Column()
+    @Column({default: ""})
     public address: string;
 
-    @Column()
-    public area: string;
+    @Column({default: 0})
+    public area: number;
 
-    @Column()
+    @Column({default: ""})
     public city: string;
 
-    @Column()
+    @Column({default: 0})
     public bedroomsCount: number;
 
-    @Column()
+    @Column({default: 0})
     public bathroomsCount: number;
 
-    @Column()
+    @Column({default: 0})
     public garageCount: number;
 
-    @Column()
-    public image: string;
-
-    @Column()
+    @Column({default: 0})
     public amount: number;
 
-    @Column()
+    @Column({default: ""})
     public purpose: string;
 
-    @Column()
+    @Column({default: ""})
     public type: string;
 
-    @ManyToOne(type => Owner, owner => owner.properties)
+    @ManyToOne(() => Owner, owner => owner.properties)
     public owner: Owner;
+
+    @OneToMany(() => PropertyImage, images => images.property, {cascade: true})
+    public images: PropertyImage[];
 
     @Column({default: true}) 
     isActive:boolean;

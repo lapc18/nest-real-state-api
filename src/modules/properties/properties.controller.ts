@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { PropertyDto } from 'src/models/dtos/property.dto';
 import { Property } from 'src/models/property.entity';
 import { PropertiesService } from './properties.service';
 
@@ -9,7 +10,12 @@ export class PropertiesController {
         private service: PropertiesService
     ){}
 
-    @Get('/')
+    @Get('/by')
+    getBy(@Query() query:PropertyDto) {
+        return this.service.findByType(query);
+    }
+
+    @Get()
     getAll() {
         return this.service.findAll();
     }
@@ -23,7 +29,7 @@ export class PropertiesController {
     }
 
     @Post()
-    create(@Body() property: Property) {
+    create(@Body() property: any) {
         return this.service.saveOrUpdate(property);
     }
 
