@@ -1,4 +1,3 @@
-import { type } from "os";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Property } from "./property.entity";
 
@@ -27,7 +26,7 @@ export class Owner {
     @Column()
     public description: string;
 
-    @OneToMany(type => Property, properties => properties.owner)
+    @OneToMany(type => Property, properties => properties.owner, {cascade: true})
     public properties: Property[];
 
     @Column({default: true}) 
